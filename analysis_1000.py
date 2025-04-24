@@ -119,24 +119,39 @@ def perform_polynomial_regression(x, y, degree=2):
 
 
 # Function to remove the highest value and return the next N values
-def get_average_of_top_n_values(voltage_values, top_n):
+
+def get_cleaned_average_of_top_n_values(voltage_values):
+    first_n=150 # 10*10*3/2
+
     # Sort the voltage values in descending order
     sorted_values = np.sort(voltage_values)[::-1]
 
-    # Identify the top three highest values (this will be considered as outliers)
-    highest_values = sorted_values[:3]
-    # Remove the top 3 highest values
-    sorted_values = sorted_values[3:]
+    # Take only the first 150 values (if they exist)
+    sorted_values = sorted_values[:first_n]
 
-    # Select the next top N values (after removing the top 3)
-    top_n_values = sorted_values[:top_n]
+    # Calculate the IQR (Interquartile Range) to identify outliers
+    Q1 = np.percentile(sorted_values, 25)  # 25th percentile (Q1)
+    Q3 = np.percentile(sorted_values, 75)  # 75th percentile (Q3)
+    IQR = Q3 - Q1  # Interquartile range
 
-    # Log the top values (excluding the highest)
-    print(f"Top {top_n} values after removing the highest 3 values ({highest_values}):")
-    print(top_n_values)
+    # Define lower and upper bounds for outliers
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    # Remove outliers: values outside the IQR bounds
+    cleaned_values = [v for v in sorted_values if lower_bound <= v <= upper_bound]
+
+    # Log the outliers
+    outliers = [v for v in sorted_values if v < lower_bound or v > upper_bound]
+    print(f"Outliers removed: {outliers}")
+
+    # Log the top N values
+    print(f"All values after removing outliers:")
+    print(cleaned_values)
+    print(f"Number of values left after removing outliers: {len(cleaned_values)}")
 
     # Return the average of these top N values
-    return np.mean(top_n_values)
+    return np.mean(cleaned_values)
 
 
 # Fit Models for Each Concentration and Wavelength:
@@ -169,14 +184,15 @@ def process_wavelength_and_regression(wavelength_data, concentrations, wavelengt
             voltage_length = len(concentration_data['Voltage_uV'].values)
             print(f"\nLength of voltage data for Concentration: {concentration}mg/mL, Wavelength: {wavelength} nm: {voltage_length}")
 
-            # Get the top 140 voltage values after removing the highest one
-            top_140_voltage = get_average_of_top_n_values(concentration_data['Voltage_uV'].values, top_n=140)
+
+            average_voltage = get_cleaned_average_of_top_n_values(concentration_data['Voltage_uV'].values)
+            print(f"Average Voltage (after removing outliers): {average_voltage:.2f} uV")
 
             # Add concentration and the average voltage for this concentration
             x.append(concentration)
-            y.append(top_140_voltage)
+            y.append(average_voltage)
 
-            print(f"Top 140 average voltage for Concentration: {concentration}mg/mL, Wavelength: {wavelength} nm: {top_140_voltage:.2f} uV")
+            print(f"Top N average voltage for Concentration: {concentration}mg/mL, Wavelength: {wavelength} nm: {average_voltage:.2f} uV")
 
         # Now perform regression with the concentration as the feature (x) and the averaged voltage as the target (y)
         x = np.array(x)  # Concentrations (independent variable)
