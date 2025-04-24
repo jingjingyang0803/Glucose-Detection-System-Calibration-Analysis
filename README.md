@@ -70,24 +70,33 @@ This analysis was performed using Python, utilizing several libraries for data m
 
 ## Results and Conclusions
 
-### Voltage Response Trends:
+This study examined the voltage response of a photodiode to glucose concentrations at various wavelengths. The results showed different sensitivities across the tested wavelengths, which are critical for optimizing the system's ability to detect glucose effectively.
 
-The voltage output from the photodiode decreased as glucose concentration increased, which is consistent with the **Beer-Lambert Law**, where higher glucose concentrations reduce light transmittance. This behavior was observed across all wavelengths tested.
+- 940 nm: This wavelength exhibits minimal absorption by glucose, resulting in very small voltage fluctuations, typically maintaining a steady output around 5 uV with less than 0.01 uV of change. Due to these negligible voltage changes, 940 nm is best used as a reference channel rather than for detecting glucose levels.
 
-### Calibration Models:
+- 1550 nm and 1610 nm: These wavelengths demonstrated the most pronounced response to glucose concentration changes, making them the most effective for glucose detection. The voltage response was significantly influenced by glucose concentration, and both linear and polynomial regression models showed a good fit to the data, particularly for higher glucose concentrations.
 
-Both **linear** and **polynomial regression** models were applied to the data. The polynomial model offered a slightly better fit at higher concentrations, demonstrating a more accurate representation of the data. However, the linear model performed sufficiently well for concentrations within the physiological range (70-180 mg/dL), making it a practical choice for implementation in the system.
+- 1410 nm: While 1410 nm exhibits high absorption from water, it can still serve as a reference wavelength. The high water absorption at this wavelength affects glucose detection, but it can be useful for compensating for variations in water content in biological samples. Using 1410 nm as a reference allows the system to correct for water interference, improving the accuracy of glucose measurements at other wavelengths.
 
-### Wavelength Sensitivity:
+## Improvements for Future Work
 
-- **1550 nm** and **1610 nm** wavelengths showed the most pronounced sensitivity to glucose concentration changes, making them ideal candidates for glucose detection.
-- **940 nm** exhibited minimal voltage change, indicating its suitability as a reference channel that experiences low glucose interaction.
+1. Enhancing the Use of 1410 nm as a Reference:
 
-## Recommendations:
+- Although 1410 nm is not ideal for glucose detection due to high water absorption, its ability to capture water content changes makes it a valuable reference wavelength. By using 1410 nm alongside other glucose-sensitive wavelengths like 1550 nm and 1610 nm, the system can account for water variation and improve the overall glucose detection accuracy.
 
-- **Use 1550 nm and 1610 nm wavelengths** for more accurate glucose measurements due to their high sensitivity to glucose absorption.
-- **Linear models** are suitable for glucose concentrations within the physiological range (70–180 mg/dL). However, **polynomial models** should be considered for higher concentrations to achieve better accuracy.
-- A **multi-wavelength approach**, combining reference and glucose-sensitive channels, should be used to improve the robustness of the system and reduce errors caused by external variables.
+2. Utilizing a Multi-Wavelength Approach:
+
+- To improve the robustness and precision of the system, a multi-wavelength sensing system should be implemented. Using 940 nm as a stable reference wavelength, 1410 nm for water content correction, and 1550 nm or 1610 nm for glucose-specific measurements could help isolate glucose signals from water interference and other confounding factors, enhancing the overall accuracy.
+
+3. Exploring Additional Glucose-Sensitive Wavelengths:
+
+- Future work should explore other wavelengths that offer a higher glucose absorption rate while minimizing the influence of water. Identifying optimal wavelengths for glucose-specific detection will refine the system and improve its performance.
+
+4. Refining Calibration Techniques:
+
+- Advanced calibration methods that utilize 1410 nm to compensate for water content variations will improve the system's ability to accurately measure glucose levels. Implementing a better calibration approach will help in correcting for the interference from water absorption, making the system more reliable across a range of glucose concentrations.
+
+In conclusion, by combining 1410 nm for water content correction with glucose-sensitive wavelengths like 1550 nm and 1610 nm, and using 940 nm as a reference, a more accurate and reliable multi-wavelength glucose detection system can be developed. Future improvements focusing on refining calibration and selecting the optimal wavelengths will significantly enhance the performance of the system.
 
 ## How to Run the Analysis
 
