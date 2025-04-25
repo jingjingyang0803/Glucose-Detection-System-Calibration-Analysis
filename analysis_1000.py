@@ -230,6 +230,9 @@ def process_wavelength_and_regression(wavelength_data, concentrations, wavelengt
         plt.title(f'Voltage vs Concentration for Wavelength: {wavelength} nm')
         plt.legend()
         plt.show()
+        # Save the plot with a filename based on the wavelength
+        filename = f"1M_{wavelength}nm.png"
+        plt.savefig(filename)
         plt.close()  # Close the plot to avoid hanging on large datasets
 
         print(f'Linear R²: {r2_linear:.3f}')
