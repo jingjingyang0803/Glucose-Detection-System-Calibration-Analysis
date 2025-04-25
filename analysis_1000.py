@@ -229,7 +229,6 @@ def process_wavelength_and_regression(wavelength_data, concentrations, wavelengt
         plt.ylabel('Average Voltage (uV)')
         plt.title(f'Voltage vs Concentration for Wavelength: {wavelength} nm')
         plt.legend()
-        plt.show()
         # Save the plot with a filename based on the wavelength
         filename = f"1M_{wavelength}nm.png"
         plt.savefig(filename)
