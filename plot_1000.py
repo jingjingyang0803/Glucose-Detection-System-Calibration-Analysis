@@ -7,7 +7,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.metrics import r2_score
 
 # Directory where the files are stored
-directory_path = './test_data/1M/'
+directory_path = './test_data_new/1000K/'
 
 
 # List all Excel files in the directory, excluding temporary files (those starting with ~$)
@@ -30,7 +30,7 @@ for file in excel_files:
         df = pd.read_excel(file_path, engine='openpyxl')
 
         # Add a new column with the concentration information inferred from the file name
-        concentration = file.split('_')[1].replace('g', '')  # Extract concentration and remove 'g', file format like "1Mohm_40g_1.xlsx"
+        concentration = file.split('_')[1]  # Extract concentration, file format like "1000K_40_1.xlsx"
         df['Concentration'] = concentration
 
         # Check first few rows to verify data
@@ -230,7 +230,7 @@ def process_wavelength_and_regression(wavelength_data, concentrations, wavelengt
         plt.title(f'Voltage vs Concentration for Wavelength: {wavelength} nm')
         plt.legend()
         # Save the plot with a filename based on the wavelength
-        filename = f"1M_{wavelength}nm.png"
+        filename = f"1000K_{wavelength}nm.png"
         plt.savefig(filename)
         plt.close()  # Close the plot to avoid hanging on large datasets
 
@@ -249,3 +249,4 @@ for wavelength in data_clean['Wavelength'].unique():
 
     # Process regression and plotting for this wavelength
     process_wavelength_and_regression(wavelength_data, concentrations, wavelength)
+
